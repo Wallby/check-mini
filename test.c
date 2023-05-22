@@ -264,6 +264,9 @@ int test_4()
 	
 	TEST(CM_CHECK_VARIABLES_USING_CONDITIONS((a, b), (aMayNotBe0, bDotaMayNotBe0), c), "test_4_check_a_and_b((char*)__FUNCTION__, a, b, ECheckaAndbCondition_aMayNotBe0 | ECheckaAndbCondition_bDotaMayNotBe0 , c)")
 	
+	TEST(CM_CHECK_VARIABLE_USING_CONDITIONS2(a, 0, c), "test_4_check_a((char*)__FUNCTION__, a, 0 , c)")
+	TEST(CM_CHECK_VARIABLES_USING_CONDITIONS2((a, b), 0, c), "test_4_check_a_and_b((char*)__FUNCTION__, a, b, 0 , c)")
+
 #undef CM_FUNCTIONPREFIX
 	
 	return 1;
@@ -271,34 +274,56 @@ int test_4()
 
 enum
 {
-	ETest5CheckintAndb_tCondition_intMayNotBe0 = 1,
-	ETest5CheckintAndb_tCondition_b_tDotaMayNotBe0 = 2
+	ETest5CheckintCondition_MayNotBe0 = 1,
+	ETest5CheckintCondition_MayNotBeLessThan0 = 2
 };
 
-int test_5_check_int_and_b_t(char* functionname, int a, struct b_t b, int conditions, char* c)
+enum
 {
+	ETest5CheckintAndintCondition_firstIntMayNotBe0 = 1,
+	ETest5CheckintAndintCondition_secondIntMayNotBe0 = 2
+};
+
+int test_5_check_int(char* functionname, int a, int conditions, char* c)
+{
+	
+	return 1;
+}
+int test_5_check_int_and_int(char* functionname, int a, int b, int conditions, char* c)
+{
+
 	return 1;
 }
 
-// NOTE: tests..
-//       .. CM_CHECK_VARIABLE(S)_OF_TYPES_USING_CONDITION(S)
-//       .. CM_ENUMPREFIX defined
+// NOTE: tests CM_CHECK_VARIABLE(S)_OF_TYPE_USING_CONDITION(S)
 int test_5()
 {
 	int a;
-	struct b_t b;
+	int b;
 	char c[] = "test";
 
 #define CM_FUNCTIONPREFIX test_5
 #define CM_ENUMPREFIX Test5
 
-	TEST(CM_CHECK_VARIABLES_OF_TYPES_USING_CONDITION(((int, a), (struct b_t, b)), intMayNotBe0, c), "test_5_check_int_and_b_t((char*)__FUNCTION__, a, b, ETest5CheckintAndb_tCondition_intMayNotBe0 , c)")
+	TEST(CM_CHECK_VARIABLE_OF_TYPE_USING_CONDITION(int, a, MayNotBe0, c), "test_5_check_int((char*)__FUNCTION__, a, ETest5CheckintCondition_MayNotBe0 , c)")
 	// ^
 	// identical to above..
-	TEST(CM_CHECK_VARIABLES_OF_TYPES_USING_CONDITIONS(((int, a), (struct b_t, b)), (intMayNotBe0), c), "test_5_check_int_and_b_t((char*)__FUNCTION__, a, b, ETest5CheckintAndb_tCondition_intMayNotBe0 , c)")
+	TEST(CM_CHECK_VARIABLES_OF_TYPE_USING_CONDITION(int, (a), MayNotBe0, c), "test_5_check_int((char*)__FUNCTION__, a, ETest5CheckintCondition_MayNotBe0 , c)")
+	TEST(CM_CHECK_VARIABLE_OF_TYPE_USING_CONDITIONS(int, a, (MayNotBe0), c), "test_5_check_int((char*)__FUNCTION__, a, ETest5CheckintCondition_MayNotBe0 , c)")
+	TEST(CM_CHECK_VARIABLES_OF_TYPE_USING_CONDITIONS(int, (a), (MayNotBe0), c), "test_5_check_int((char*)__FUNCTION__, a, ETest5CheckintCondition_MayNotBe0 , c)")
 	
-	TEST(CM_CHECK_VARIABLES_OF_TYPES_USING_CONDITIONS(((int, a), (struct b_t, b)), (intMayNotBe0, b_tDotaMayNotBe0), c), "test_5_check_int_and_b_t((char*)__FUNCTION__, a, b, ETest5CheckintAndb_tCondition_intMayNotBe0 | ETest5CheckintAndb_tCondition_b_tDotaMayNotBe0 , c)")
+	TEST(CM_CHECK_VARIABLE_OF_TYPE_USING_CONDITIONS(int, a, (MayNotBe0, MayNotBeLessThan0), c), "test_5_check_int((char*)__FUNCTION__, a, ETest5CheckintCondition_MayNotBe0 | ETest5CheckintCondition_MayNotBeLessThan0 , c)")
+	
+	TEST(CM_CHECK_VARIABLES_OF_TYPE_USING_CONDITION(int, (a, b), firstIntMayNotBe0, c), "test_5_check_int_and_int((char*)__FUNCTION__, a, b, ETest5CheckintAndintCondition_firstIntMayNotBe0 , c)")
+	// ^
+	// identical to above..
+	TEST(CM_CHECK_VARIABLES_OF_TYPE_USING_CONDITIONS(int, (a, b), (firstIntMayNotBe0), c), "test_5_check_int_and_int((char*)__FUNCTION__, a, b, ETest5CheckintAndintCondition_firstIntMayNotBe0 , c)")
+	
+	TEST(CM_CHECK_VARIABLES_OF_TYPE_USING_CONDITIONS(int, (a, b), (firstIntMayNotBe0, secondIntMayNotBe0), c), "test_5_check_int_and_int((char*)__FUNCTION__, a, b, ETest5CheckintAndintCondition_firstIntMayNotBe0 | ETest5CheckintAndintCondition_secondIntMayNotBe0 , c)")
 
+	TEST(CM_CHECK_VARIABLE_OF_TYPE_USING_CONDITIONS2(int, a, 0, c), "test_5_check_int((char*)__FUNCTION__, a, 0 , c)")
+	TEST(CM_CHECK_VARIABLES_OF_TYPE_USING_CONDITIONS2(int, (a, b), 0, c), "test_5_check_int_and_int((char*)__FUNCTION__, a, b, 0 , c)")
+	
 #undef CM_FUNCTIONPREFIX
 #undef CM_ENUMPREFIX
 	
@@ -307,53 +332,36 @@ int test_5()
 
 enum
 {
-	ETest6CheckintCondition_MayNotBe0 = 1,
-	ETest6CheckintCondition_MayNotBeLessThan0 = 2
+	ETest6CheckintAndb_tCondition_intMayNotBe0 = 1,
+	ETest6CheckintAndb_tCondition_b_tDotaMayNotBe0 = 2
 };
 
-enum
+int test_6_check_int_and_b_t(char* functionname, int a, struct b_t b, int conditions, char* c)
 {
-	ETest6CheckintAndintCondition_firstIntMayNotBe0 = 1,
-	ETest6CheckintAndintCondition_secondIntMayNotBe0 = 2
-};
-
-int test_6_check_int(char* functionname, int a, int conditions, char* c)
-{
-	
-	return 1;
-}
-int test_6_check_int_and_int(char* functionname, int a, int b, int conditions, char* c)
-{
-
 	return 1;
 }
 
-// NOTE: tests CM_CHECK_VARIABLES_OF_TYPE_USING_CONDITION(S)
+// NOTE: tests..
+//       .. CM_CHECK_VARIABLE(S)_OF_TYPES_USING_CONDITION(S)
+//       .. CM_ENUMPREFIX defined
 int test_6()
 {
 	int a;
-	int b;
+	struct b_t b;
 	char c[] = "test";
 
 #define CM_FUNCTIONPREFIX test_6
 #define CM_ENUMPREFIX Test6
 
-	TEST(CM_CHECK_VARIABLE_OF_TYPE_USING_CONDITION(int, a, MayNotBe0, c), "test_6_check_int((char*)__FUNCTION__, a, ETest6CheckintCondition_MayNotBe0 , c)")
+	TEST(CM_CHECK_VARIABLES_OF_TYPES_USING_CONDITION(((int, a), (struct b_t, b)), intMayNotBe0, c), "test_6_check_int_and_b_t((char*)__FUNCTION__, a, b, ETest6CheckintAndb_tCondition_intMayNotBe0 , c)")
 	// ^
 	// identical to above..
-	TEST(CM_CHECK_VARIABLES_OF_TYPE_USING_CONDITION(int, (a), MayNotBe0, c), "test_6_check_int((char*)__FUNCTION__, a, ETest6CheckintCondition_MayNotBe0 , c)")
-	TEST(CM_CHECK_VARIABLE_OF_TYPE_USING_CONDITIONS(int, a, (MayNotBe0), c), "test_6_check_int((char*)__FUNCTION__, a, ETest6CheckintCondition_MayNotBe0 , c)")
-	TEST(CM_CHECK_VARIABLES_OF_TYPE_USING_CONDITIONS(int, (a), (MayNotBe0), c), "test_6_check_int((char*)__FUNCTION__, a, ETest6CheckintCondition_MayNotBe0 , c)")
+	TEST(CM_CHECK_VARIABLES_OF_TYPES_USING_CONDITIONS(((int, a), (struct b_t, b)), (intMayNotBe0), c), "test_6_check_int_and_b_t((char*)__FUNCTION__, a, b, ETest6CheckintAndb_tCondition_intMayNotBe0 , c)")
 	
-	TEST(CM_CHECK_VARIABLE_OF_TYPE_USING_CONDITIONS(int, a, (MayNotBe0, MayNotBeLessThan0), c), "test_6_check_int((char*)__FUNCTION__, a, ETest6CheckintCondition_MayNotBe0 | ETest6CheckintCondition_MayNotBeLessThan0 , c)")
-	
-	TEST(CM_CHECK_VARIABLES_OF_TYPE_USING_CONDITION(int, (a, b), firstIntMayNotBe0, c), "test_6_check_int_and_int((char*)__FUNCTION__, a, b, ETest6CheckintAndintCondition_firstIntMayNotBe0 , c)")
-	// ^
-	// identical to above..
-	TEST(CM_CHECK_VARIABLES_OF_TYPE_USING_CONDITIONS(int, (a, b), (firstIntMayNotBe0), c), "test_6_check_int_and_int((char*)__FUNCTION__, a, b, ETest6CheckintAndintCondition_firstIntMayNotBe0 , c)")
-	
-	TEST(CM_CHECK_VARIABLES_OF_TYPE_USING_CONDITIONS(int, (a, b), (firstIntMayNotBe0, secondIntMayNotBe0), c), "test_6_check_int_and_int((char*)__FUNCTION__, a, b, ETest6CheckintAndintCondition_firstIntMayNotBe0 | ETest6CheckintAndintCondition_secondIntMayNotBe0 , c)")
+	TEST(CM_CHECK_VARIABLES_OF_TYPES_USING_CONDITIONS(((int, a), (struct b_t, b)), (intMayNotBe0, b_tDotaMayNotBe0), c), "test_6_check_int_and_b_t((char*)__FUNCTION__, a, b, ETest6CheckintAndb_tCondition_intMayNotBe0 | ETest6CheckintAndb_tCondition_b_tDotaMayNotBe0 , c)")
 
+	TEST(CM_CHECK_VARIABLES_OF_TYPES_USING_CONDITIONS2(((int, a), (struct b_t, b)), 0, c), "test_6_check_int_and_b_t((char*)__FUNCTION__, a, b, 0 , c)")
+	
 #undef CM_FUNCTIONPREFIX
 #undef CM_ENUMPREFIX
 	

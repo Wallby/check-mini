@@ -506,7 +506,10 @@
 //       .. MayNotBeLessThan0), b) -> </CM_FUNCTIONPREFIX_>check_a((char*)..
 //       ..__FUNCTION__, a, E<CM_ENUMPREFIX2>CheckaCondition_MayNotBe0 |..
 //       .. E<CM_ENUMPREFIX2>CheckaConditionMayNotBe0, b)
-#define CM_CHECK_VARIABLE_USING_CONDITIONS(variable, conditions, ...) CM_CHECK_VARIABLE_FUNCTIONNAME(variable)((char*)__FUNCTION__, variable, CM_CONDITIONS2((variable), conditions) __VA_OPT__(,) __VA_ARGS__)
+#define CM_CHECK_VARIABLE_USING_CONDITIONS(variable, conditions, ...) CM_CHECK_VARIABLE_USING_CONDITIONS2(variable, CM_CONDITIONS2((variable), conditions) __VA_OPT__(,) __VA_ARGS__)
+// NOTE: same as CM_CHECK_VARIABLE_USING_CONDITIONS but conditions isn't..
+//       .. parsed but directly supplied
+#define CM_CHECK_VARIABLE_USING_CONDITIONS2(variable, conditions, ...) CM_CHECK_VARIABLE_FUNCTIONNAME(variable)((char*)__FUNCTION__, variable, conditions __VA_OPT__(,) __VA_ARGS__)
 // NOTE: e.g. CM_CHECK_VARIABLES_USING_CONDITION((a, b), aMayNotBe0, c) ->..
 //       .. </CM_FUNCTIONPREFIX_>check_a_and_b((char*)__FUNCTION__,..
 //       .. E<CM_ENUMPREFIX2>CheckaAndbCondition_aMayNotBe0)
@@ -516,7 +519,10 @@
 //       ..__FUNCTION__, a, b,..
 //       .. E<CM_ENUMPREFIX2>CheckaAndbCondition_aMayNotBe0 |..
 //       .. E<CM_ENUMPREFIX2>_CheckaAndbCondition_bMayNotBe0, c)
-#define CM_CHECK_VARIABLES_USING_CONDITIONS(variables, conditions, ...) CM_CHECK_VARIABLES_FUNCTIONNAME variables((char*)__FUNCTION__, CM_REMOVE_PARENTHESES(variables), CM_CONDITIONS2(variables, conditions) __VA_OPT__(,) __VA_ARGS__)
+#define CM_CHECK_VARIABLES_USING_CONDITIONS(variables, conditions, ...) CM_CHECK_VARIABLES_USING_CONDITIONS2(variables, CM_CONDITIONS2(variables, conditions) __VA_OPT__(,) __VA_ARGS__)
+// NOTE: same as CM_CHECK_VARIABLES_USING_CONDITIONS but conditions isn't..
+//       .. parsed but directly supplied
+#define CM_CHECK_VARIABLES_USING_CONDITIONS2(variables, conditions, ...) CM_CHECK_VARIABLES_FUNCTIONNAME variables((char*)__FUNCTION__, CM_REMOVE_PARENTHESES(variables), conditions __VA_OPT__(,) __VA_ARGS__)
 // NOTE: e.g. CM_CHECK_VARIABLE_OF_TYPE_USING_CONDITION(int, a, MayNotbe0,..
 //       .. b) -> </CM_FUNCTIONPREFIX_>check_int((char*)__FUNCTION__, a,..
 //       .. E<CM_ENUMPREFIX2>CheckintCondition_MayNotBe0, b)
@@ -525,7 +531,10 @@
 //       .. MayNotBeLessThan0), b) -> </CM_FUNCTIONPREFIX_>check_int((char*)..
 //       ..__FUNCTION__, a, E<CM_ENUMPREFIX2>CheckintCondition_MayNotBe0 |..
 //       .. E<CM_ENUMPREFIX2>CheckintCondition_MayNotBeLessThan0, b)
-#define CM_CHECK_VARIABLE_OF_TYPE_USING_CONDITIONS(type, variable, conditions, ...) CM_CHECK_VARIABLE_OF_TYPE_FUNCTIONNAME(type)((char*)__FUNCTION__, variable, CM_CONDITIONS2(((type, variable)), conditions) __VA_OPT__(,) __VA_ARGS__)
+#define CM_CHECK_VARIABLE_OF_TYPE_USING_CONDITIONS(type, variable, conditions, ...) CM_CHECK_VARIABLE_OF_TYPE_USING_CONDITIONS2(type, variable, CM_CONDITIONS2(((type, variable)), conditions) __VA_OPT__(,) __VA_ARGS__)
+// NOTE: same as CM_CHECK_VARIABLE_OF_TYPE_USING_CONDITION(S) but conditions..
+//       .. isn't parsed but directly supplied
+#define CM_CHECK_VARIABLE_OF_TYPE_USING_CONDITIONS2(type, variable, conditions, ...) CM_CHECK_VARIABLE_OF_TYPE_FUNCTIONNAME(type)((char*)__FUNCTION__, variable, conditions __VA_OPT__(,) __VA_ARGS__)
 // NOTE: e.g. CM_CHECK_VARIABLES_OF_TYPE_USING_CONDITION(int, (a, b),..
 //       .. firstIntMayNotBe0, c) -> </CM_FUNCTIONPREFIX>check_int_and_int(..
 //       ..(char*)__FUNCTION__, a, b,..
@@ -536,7 +545,10 @@
 //       .. </CM_FUNCTIONPREFIX2>check_int_and_int((char*)__FUNCTION__, a,..
 //       .. b, E<CM_ENUMPREFIX2>CheckintAndintCondition_firstIntMayNotBe0,..
 //       .. E<CM_ENUMPREFIX2>CheckintAndintCondition_secondIntMayNotBe0, c)
-#define CM_CHECK_VARIABLES_OF_TYPE_USING_CONDITIONS(type, variables, conditions, ...) CM_CHECK_VARIABLES_OF_TYPE_FUNCTIONNAME(type, variables)((char*)__FUNCTION__, CM_REMOVE_PARENTHESES(variables), CM_CONDITIONS_FROM_TYPE_AND_VARIABLES2(type, variables, conditions) __VA_OPT__(,) __VA_ARGS__)
+#define CM_CHECK_VARIABLES_OF_TYPE_USING_CONDITIONS(type, variables, conditions, ...) CM_CHECK_VARIABLES_OF_TYPE_USING_CONDITIONS2(type, variables, CM_CONDITIONS_FROM_TYPE_AND_VARIABLES2(type, variables, conditions) __VA_OPT__(,) __VA_ARGS__)
+// NOTE: same as CM_CHECK_VARIABLE_OF_TYPE_USING_CONDITIONS but conditions..
+// ..  isn't parsed but directly supplied
+#define CM_CHECK_VARIABLES_OF_TYPE_USING_CONDITIONS2(type, variables, conditions, ...) CM_CHECK_VARIABLES_OF_TYPE_FUNCTIONNAME(type, variables)((char*)__FUNCTION__, CM_REMOVE_PARENTHESES(variables), conditions __VA_OPT__(,) __VA_ARGS__) 
 // NOTE: e.g. CM_CHECK_VARIABLES_OF_TYPES_USING_CONDITION((a, (int, b)),..
 //       .. aMayNotBe0, c) -> </CM_FUNCTIONPREFIX_>check_a_and_int((char*)..
 //       ..__FUNCTION__, a, b,..
@@ -547,6 +559,9 @@
 //       .. </CM_FUNCTIONPREFIX_>check_a_and_int((char*)__FUNCTION__, a, b,..
 //       .. E<CM_ENUMPREFIX2>CheckaAndintCondition_aMayNotBe0 |..
 //       .. E<CM_ENUMPREFIX2>CheckaAndintCondition_intMayNotBe0, c)
-#define CM_CHECK_VARIABLES_OF_TYPES_USING_CONDITIONS(typesAndVariables, conditions, ...) CM_CHECK_VARIABLES_OF_TYPES_FUNCTIONNAME typesAndVariables((char*)__FUNCTION__, CM_VARIABLENAMES typesAndVariables, CM_CONDITIONS2(typesAndVariables, conditions) __VA_OPT__(,) __VA_ARGS__)
+#define CM_CHECK_VARIABLES_OF_TYPES_USING_CONDITIONS(typesAndVariables, conditions, ...) CM_CHECK_VARIABLES_OF_TYPES_USING_CONDITIONS2(typesAndVariables, CM_CONDITIONS2(typesAndVariables, conditions) __VA_OPT__(,) __VA_ARGS__)
+// NOTE: same as CM_CHECK_VARIABLES_OF_TYPES_USING_CONDITIONS but conditions..
+//       .. isn't parsed but directly supplied
+#define CM_CHECK_VARIABLES_OF_TYPES_USING_CONDITIONS2(typesAndVariables, conditions, ...) CM_CHECK_VARIABLES_OF_TYPES_FUNCTIONNAME typesAndVariables((char*)__FUNCTION__, CM_VARIABLENAMES typesAndVariables, conditions  __VA_OPT__(,) __VA_ARGS__) 
 
 #endif
