@@ -1,6 +1,8 @@
 #ifndef CHECK_MINI_H
 #define CHECK_MINI_H
 
+#define CHECK_MINI_VERSION 0.1
+
 // NOTE: e.g. CM_CHECK_VARIABLE_USING_CONDITIONS(a, MayNotBe0) ->..
 //       .. conditions == E<CM_ENUMPREFIX2>CheckaCondition_MayNotBe0
 //       ^
